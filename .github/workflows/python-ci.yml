@@ -6,8 +6,7 @@ on:
       - master  # Trigger on push to 'master' branch
   pull_request:
     branches:
-      - master  # Trigger on pull requests targeting 'maste:%d
-   branch
+      - master  # Trigger on pull requests targeting 'master' branch
 
 jobs:
   test:
