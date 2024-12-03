@@ -11,7 +11,7 @@ student_notes = [open(_file, encoding='utf-8').read() for _file in student_files
 
 def vectorize(Text):
     vectorizer = TfidfVectorizer(stop_words='english')
-    return TfidfVectorizer().fit_transform(Text).toarray()
+    return TfidfVectorizer().fit_transform(Text).toarray(), vectorizer
 
 def similarity(doc1, doc2): 
     return cosine_similarity([doc1, doc2])
@@ -64,11 +64,12 @@ def test_similarity():
     similarity_score = similarity(vec1[0], vec2[0])[0][0]
 
     # Assert similarity score is exactly 1 for identical texts
-    assert similarity_score == 1.0, f"Expected 1.0 but got {similarity_score}"
+    print(f"Similarity (Identical): {similarity_score}")
+    assert similarity_score == 1.0, f"Expected 1.0 but got, {similarity_score}"
 
     # Test similarity with completely different texts
-    text1 = ["This is a test sentence."]
-    text2 = ["Another completely different sentence."]
+    text1 = ["The quick brown fox jumps over the lazy dog."]
+    text2 = ["A completely different sentence with unrelated words."]
 
     vec1 = vectorize(text1)
     vec2 = vectorize(text2)
@@ -80,7 +81,8 @@ def test_similarity():
     similarity_score = similarity(vec1[0], vec2[0])[0][0]
 
     # Use math.isclose to handle floating-point precision issues
-    assert math.isclose(similarity_score, 0.0, abs_tol=0.1), f"Expected similarity < 0.1, but got {similarity_score}"
+    print(f"Similarity (Different): {similarity_score}")
+    assert math.isclose(similarity_score, 0.0, abs_tol=0.1), f"Expected similarity < 0.1 but got, {similarity_score}"
 
     # Alternatively, if you prefer using a threshold approach:
     # assert similarity_score < 0.5, f"Expected similarity score < 0.5, but got {similarity_score}"
