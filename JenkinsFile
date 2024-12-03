@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/your-python-project.git'
+                git 'https://github.com/AdityaAggarwal11/Jenkins_demo.git'
             }
         }
         stage('Set up Virtual Environment') {
