@@ -3,15 +3,15 @@ name: Python CI/CD Pipeline
 on:
   push:
     branches:
-      - master  # Trigger the workflow on push to the 'master' branch
+      - master  # Trigger on push to 'master' branch
   pull_request:
     branches:
-      - master  # Trigger on pull requests targeting the 'master' branch
+      - master  # Trigger on pull requests targeting 'master' branch
 
 jobs:
   test:
-    runs-on: windows-latest  # Use the latest Ubuntu runner for the job
-    
+    runs-on: windows-latest  # Use the latest Windows runner
+
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3  # Checkout the repository's code
@@ -19,20 +19,25 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'  # Specify the Python version you want to use
+        python-version: '3.9'  # Specify Python version
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Install dependencies from your requirements.txt
+        pip install -r requirements.txt  # Install dependencies from requirements.txt
+
+    - name: Create test reports directory (if not exists)
+      run: |
+        mkdir test-reports  # Ensure the 'test-reports' directory exists on Windows
 
     - name: Run tests with pytest
       run: |
-        pytest --maxfail=1 --disable-warnings -q  # Run tests with pytest
+        pytest --maxfail=1 --disable-warnings -q --junitxml=test-reports\report.xml  # Correct path for Windows
 
     - name: Upload test results (optional)
       if: always()  # Ensure this step runs regardless of test success/failure
       uses: actions/upload-artifact@v3
       with:
         name: pytest-results
-        path: test-reports/*.xml  # Path to your JUnit test results (if you're generating them)
+        path: test-reports\*.xml  # Correct Windows path format
+
