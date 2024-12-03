@@ -3,10 +3,10 @@ name: Python CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the 'main' branch
+      - master  # Trigger the workflow on push to the 'master' branch
   pull_request:
     branches:
-      - main  # Trigger on pull requests targeting the 'main' branch
+      - master  # Trigger on pull requests targeting the 'master' branch
 
 jobs:
   test:
